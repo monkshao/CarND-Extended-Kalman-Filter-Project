@@ -61,7 +61,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   //In order to calculate yy for the radar sensor, we need to convert x' to polar coordinates. 
   // calculate x object state to polar coordinates
   double rho = sqrt(x_(0)*x_(0) + x_(1)*x_(1));
-  double theta = atan(x_(1) / x_(0));
+  double theta = atan2(x_(1), x_(0));
   double rho_dot;
   if (fabs(rho) < 0.001) { rho_dot = 0;}
   else rho_dot = (x_(0)*x_(2) + x_(1)*x_(3)) / rho;
