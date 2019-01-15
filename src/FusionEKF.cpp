@@ -99,7 +99,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       // there is no velocities informtion from first measurement of LIDAR, so, we use zeros
       ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
     }
-
+    else {
+      cout << "invalid data source, don't continue" << endl;
+      return;
+    }
     // Save the initiall timestamp for dt calculation
     previous_timestamp_ = measurement_pack.timestamp_;
     // done initializing, no need to predict or update
@@ -142,6 +145,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
          dt_3/2*noise_ax, 0, dt_2*noise_ax, 0,
          0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
   
+
   ekf_.Predict();
 
   /**

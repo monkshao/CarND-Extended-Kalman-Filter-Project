@@ -16,7 +16,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
    * TODO: Calculate the RMSE here.
    */
   VectorXd rmse(4);
-  rmse << 0,0,0,0;
+  rmse << 0.0,0.0,0.0,0.0;
 
   // check the validity of the following inputs:
   //  * the estimation vector size should not be zero
@@ -68,7 +68,8 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   double c3 = (c1*sqrt_c1);
 
   // check division by zero
-  if (fabs(c1) < 0.00001) {
+  if (fabs(c1) < 0.001) {
+    // this value needs to be the same as the value in kalman_filter.cpp
     cout << "CalculateJacobian () - Error - Division by Zero" << endl;
     return Hj;
   }

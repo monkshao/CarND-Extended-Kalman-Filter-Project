@@ -50,8 +50,13 @@ void KalmanFilter::Update(const VectorXd &z) {
 
   //new estimate
   x_ = x_ + (K * y);
-  long x_size = x_.size();
-  MatrixXd I = MatrixXd::Identity(x_size, x_size);
+//   long x_size = x_.size();
+//   MatrixXd I = MatrixXd::Identity(x_size, x_size);
+  MatrixXd I(4, 4);
+  I << 1.0, 0, 0, 0,
+       0, 1.0, 0, 0,
+       0, 0, 1.0, 0,
+       0, 0, 0, 1.0;
   P_ = (I - K * H_) * P_;
 }
 
@@ -62,10 +67,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   //The radar sensor will output values in polar coordinates
   //In order to calculate yy for the radar sensor, we need to convert x' to polar coordinates. 
   // calculate x object state to polar coordinates
-  double rho = sqrt(x_(0)*x_(0) + x_(1)*x_(1));
+  double dot = x_(0)*x_(0) + x_(1)*x_(1);
+  double rho = sqrt(dot);
   double theta = atan2(x_(1), x_(0));
   double rho_dot;
-  if (fabs(rho) < 0.001) { 
+  if (fabs(dot) < 0.001) { 
     rho_dot = 0;
     cout << "Calculate rho () - Error - Division by Zero; stop doing UpdateEKF" << endl;
     return;
@@ -84,8 +90,13 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   //new estimate
   x_ = x_ + (K * y);
-  long x_size = x_.size();
-  MatrixXd I = MatrixXd::Identity(x_size, x_size);
+//   long x_size = x_.size();
+//   MatrixXd I = MatrixXd::Identity(x_size, x_size);
+  MatrixXd I(4, 4);
+  I << 1.0, 0, 0, 0,
+       0, 1.0, 0, 0,
+       0, 0, 1.0, 0,
+       0, 0, 0, 1.0;
   P_ = (I - K * H_) * P_;
 }
 
